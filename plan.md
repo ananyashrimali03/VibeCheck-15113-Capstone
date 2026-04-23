@@ -48,7 +48,7 @@ Use this table when assigning Cursor agents or parallel contributors.
 
 ## Implementation checklist
 
-- [ ] **single-pass-60m** *(if timeboxed to ~1 hr)* — Follow **§0.1–§0.2** only: stub `listening`, minimal signals, skip OAuth / push / listening FIFO until Phase 2.
+- [ ] **single-pass** — Follow **§0.1–§0.2** only: stub `listening`, minimal signals, skip OAuth / push / listening FIFO until Phase 2.
 - [ ] **agents-2-full-mvp** *(if using two agents)* — Split per **§0.3**: A = proxy + signals + validation; B = UI + Deezer + listening UX; merge after shared types.
 - [ ] **bootstrap-project** — Create/select project folder, scaffold React SPA with mobile-first layout and dark ambient theme placeholders.
 - [ ] **signals-weather** — Implement SignalsPacket collectors (time, locale, visibility, idle, optional geo) + Open-Meteo/OpenWeather with graceful degradation and user-facing privacy notice.
