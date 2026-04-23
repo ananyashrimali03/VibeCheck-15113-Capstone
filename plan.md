@@ -4,15 +4,13 @@
 
 **Technical specification:** [`spec.md`](./spec.md) (APIs, prompts, validation, UI states, demo script).
 
-### Can this ship in **1 hour** (single agent, one pass)?
-
 **Not the entire spec.** The full document (all signals, weather edge cases, listening FIFO, notifications, handoff URLs) targets **~90–120+ minutes** for a polished path. A **deliberately cut “single-pass MVP”** (below) **is doable in about one hour** if the agent follows the cut list strictly and does not expand scope mid-build.
 
 **Single-pass rule:** Implement **only** **§0.1** (table below) in the first PR/session; treat everything else in this file as **Phase 2**.
 
-### 0.1 — 60-minute cut: what ships vs defer
+###  what ships vs defer
 
-| Ship in ~60 min | Defer (Phase 2) |
+| Ship in short time | Defer (Phase 2) |
 |-------------------|-----------------|
 | Vite + React (or Next) SPA, mobile-first dark UI | Spotify / Last.fm OAuth |
 | **Signals:** `collected_at_iso`, timezone, local time, day, `locale`, `navigator.onLine`, `visibility`, minimal `idle_ms_estimate` (timestamp-based), `ua_mobile` heuristic | Scroll/click counters, battery (unless free minutes remain) |
