@@ -1,6 +1,6 @@
 # VibeCheck — Agent Implementation Spec
 
-**Overview:** A mobile-first web app that passively collects browser/environment signals plus **listening context** (on-device preview history by default; optional Spotify/Last.fm stretch), calls Claude once to infer mood and produce playlist/search metadata, fetches playable tracks from Deezer, and surfaces results via in-app UI plus optional Web Notifications—aligned with the hackathon theme (creative amplification / meaning-making without forcing explicit mood input).
+**Overview:** A mobile-first web app that passively collects browser/environment signals plus **listening context** (on-device preview history by default; optional Spotify/Last.fm stretch), calls Claude once to infer mood and produce playlist/search metadata, fetches playable tracks from Deezer, and surfaces results via in-app UI plus optional Web Notifications (creative amplification / meaning-making without forcing explicit mood input).
 
 **Technical specification:** [`spec.md`](./spec.md) (APIs, prompts, validation, UI states, demo script).
 
