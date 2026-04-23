@@ -317,20 +317,20 @@ If `distress_hint` is true OR heuristic triggers (optional): show static panel:
 
 ---
 
-## 12. README for judges (short)
+## 12. README
 
 Include: what signals are used, privacy stance, limitations (not mind-reading), how to run, where keys go.
 
 ---
 
-## 13. Time-boxed implementation order (90 minutes core)
+## 13. Time-boxed implementation order 
 
-1. Scaffold UI + signal collectors + degradation flags (20m)
-2. Weather path (Open-Meteo no-key OR OpenWeather with proxy) (15m)
-3. Claude JSON contract + parsing + error UI (20m)
-4. Deezer search + preview grid (15m)
-5. Polish: copy, skeleton UI, demo path, in-app “fake notification” banner (15m)
-6. Stretch: periodic re-check + Web Notifications permission (remaining)
+1. Scaffold UI + signal collectors + degradation flags 
+2. Weather path (Open-Meteo no-key OR OpenWeather with proxy) 
+3. Claude JSON contract + parsing + error UI 
+4. Deezer search + preview grid 
+5. Polish: copy, skeleton UI, demo path, in-app “fake notification” banner 
+6. Stretch: periodic re-check + Web Notifications permission 
 
 ---
 
