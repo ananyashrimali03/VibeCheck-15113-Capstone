@@ -13,21 +13,6 @@ Specs and planning: **[`plan.md`](./plan.md)** and `spec.md`
 
 If Gemini isn’t configured, the app still loads using **fallback vignettes** (rotating placeholder copy + SoundHelix audio) so testers can click through the UI.
 
-## Prize eligibility & Devpost submission
-
-Requirements from organizers (summarized)—confirm against your hackathon rules:
-
-| Requirement | Notes |
-|-------------|--------|
-| **LLM integration** | This build uses **Google Gemini** server-side ([`app/api/infer/route.ts`](./app/api/infer/route.ts)): `SignalsPacket` in → structured `InferenceResult` JSON out. |
-| **GitHub repo + Devpost** | Push to **GitHub**, link the repo on **Devpost**, add demo video / live URL / team as required. |
-
-**Pre-submit checklist**
-
-- [ ] Code on **GitHub** with this `README.md` updated for your submission narrative.
-- [ ] **`.env.local` / API keys are not committed** (repo should only expose `.env.example`).
-- [ ] **Devpost** includes the **repository link** and any required assets.
-
 ## Setup
 
 ```bash
