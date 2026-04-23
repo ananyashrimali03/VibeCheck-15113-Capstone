@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fff8f0;
+  --foreground: #141414;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes vc-wave {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vc-wave-active {
+    animation: vc-wave 0.9s ease-in-out infinite;
+    transform-origin: bottom;
+  }
+}
+
+/* Mood-driven radius — only when a theme is active (vars inherit from parent) */
+[data-vibe-theme] .vc-session-card {
+  border-radius: var(--vc-radius-bump, 1rem);
+}
