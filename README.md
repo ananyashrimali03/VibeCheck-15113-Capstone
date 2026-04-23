@@ -2,7 +2,7 @@
 
 **Context-aware music picks:** passive signals from the browser → **Gemini** produces a structured **`InferenceResult`** → **iTunes Search** for tracks (optional **YouTube** embeds for full-length playback when `YOUTUBE_API_KEY` is set).
 
-Specs and planning: **[`plan.md`](./plan.md)** (and sibling `spec.md` if present).
+Specs and planning: **[`plan.md`](./plan.md)** and `spec.md`
 
 ## Testing the product
 
