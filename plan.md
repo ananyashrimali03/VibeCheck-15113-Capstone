@@ -40,7 +40,7 @@ Use this table when assigning Cursor agents or parallel contributors.
 
 | Scenario | Agents | Roles |
 |----------|--------|--------|
-| **~60 min single-pass** (§0.1 table) | **1** | One agent follows **§0.1–§0.2** only; simplest coordination, lowest merge risk. |
+| **single-pass** (§0.1 table) | **1** | One agent follows **§0.1–§0.2** only; simplest coordination, lowest merge risk. |
 | **Full MVP + polish** (MVP-01 … MVP-09, stretch if time) | **2** *(recommended)* | **Agent A — Platform & AI:** scaffold, env, Claude proxy, `SignalsPacket` + weather/geo fallbacks, JSON validation/retry, shared types. **Agent B — UI & audio:** screens (privacy, loading, results), Deezer grid + playback, Re-read debounce, listening logger + Clear, README/demo copy. |
 | **Large parallel push** | **3+** | Usually **not** worth it at this repo size—merge conflicts and duplicated assumptions exceed speed gains. Reserve for rare cases with a human merge owner. |
 
