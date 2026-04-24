@@ -1,6 +1,6 @@
 # VibeCheck
 
-**Context-aware music picks:** passive signals from the browser → **Gemini** produces a structured **`InferenceResult`** → **iTunes Search** for tracks (optional **YouTube** embeds for full-length playback when `YOUTUBE_API_KEY` is set).
+**Context-aware music picks:** passive signals from the browser → **Gemini** produces a structured **`InferenceResult`** → **iTunes Search** for tracks
 
 Specs and planning: **[`plan.md`](./plan.md)** and `spec.md`
 
@@ -15,28 +15,6 @@ If Gemini isn’t configured, the app still loads using **fallback vignettes** (
 
 ## Features
 Recommendations are being done from external factors rather than music history. So, I'm proud of the creative and (maybe) better recommendations.  
-
-## Setup
-
-```bash
-cd music-recommendation-main   # or your clone folder name
-copy .env.example .env.local   # Windows — or cp on macOS/Linux
-```
-
-Edit `.env.local`:
-
-```bash
-GEMINI_API_KEY=your_key_here
-# Optional:
-YOUTUBE_API_KEY=your_youtube_data_api_key
-```
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
 
 ## For testers
 
