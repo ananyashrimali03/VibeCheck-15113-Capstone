@@ -1,6 +1,5 @@
 /**
- * Resolve YouTube video IDs and optional full-length audio streams via Piped API,
- * with optional YouTube Data API v3 when YOUTUBE_API_KEY is set.
+ * Resolve full-length audio streams via Piped API.
  */
 
 const SEARCH_TIMEOUT_MS = 14_000;
@@ -69,24 +68,10 @@ async function pipedSearchVideoId(apiBase: string, query: string): Promise<strin
   return null;
 }
 
-async function youtubeDataApiSearch(query: string, apiKey: string): Promise<string | null> {
-  const url =
-    `https://www.googleapis.com/youtube/v3/search?part=id&maxResults=1&type=video` +
-    `&q=${encodeURIComponent(`${query} official audio`)}&key=${encodeURIComponent(apiKey)}`;
-  const res = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(SEARCH_TIMEOUT_MS) });
-  if (!res.ok) return null;
-  const data = (await res.json()) as { items?: Array<{ id?: { videoId?: string } }> };
-  return data.items?.[0]?.id?.videoId ?? null;
-}
-
 export type ResolvedPlayback = {
-  youtube_video_id?: string;
   stream_audio_url?: string;
 };
 
-/**
- * Prefer a direct audio stream (full length in HTML audio). Fall back to video id for YouTube embed.
- */
 export async function resolveFullPlayback(artist: string, title: string): Promise<ResolvedPlayback> {
   const query = `${artist} ${title}`.trim();
   if (!query) return {};
@@ -94,23 +79,16 @@ export async function resolveFullPlayback(artist: string, title: string): Promis
   let videoId: string | null = null;
   let pipedBaseUsed: string | null = null;
 
-  const ytKey = process.env.YOUTUBE_API_KEY?.trim();
-  if (ytKey) {
-    videoId = await youtubeDataApiSearch(query, ytKey);
-  }
-
-  if (!videoId) {
-    for (const base of getPipedApiBases()) {
-      try {
-        const id = await pipedSearchVideoId(base, `${query} official audio`);
-        if (id) {
-          videoId = id;
-          pipedBaseUsed = base;
-          break;
-        }
-      } catch {
-        continue;
+  for (const base of getPipedApiBases()) {
+    try {
+      const id = await pipedSearchVideoId(base, `${query} official audio`);
+      if (id) {
+        videoId = id;
+        pipedBaseUsed = base;
+        break;
       }
+    } catch {
+      continue;
     }
   }
 
@@ -127,7 +105,7 @@ export async function resolveFullPlayback(artist: string, title: string): Promis
     }
   }
 
-  return { youtube_video_id: videoId };
+  return {};
 }
 
 async function fetchPipedBestAudioUrl(apiBase: string, videoId: string): Promise<string | null> {

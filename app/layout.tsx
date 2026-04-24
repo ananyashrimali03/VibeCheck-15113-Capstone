@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "VibeCheck",
   description:
-    "Turn context into music picks—signals from your device, mood read by Gemini, playback via Apple previews or optional full-length YouTube. Not clinical advice.",
+    "Turn context into music picks—signals from your device, mood read by Gemini, playback via Apple previews or optional full-length audio. Not clinical advice.",
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-[#fff8f0] text-neutral-900 antialiased">
+      <body suppressHydrationWarning className="flex min-h-full flex-col bg-[#fff8f0] text-neutral-900 antialiased">
         {children}
       </body>
     </html>

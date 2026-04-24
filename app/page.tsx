@@ -447,9 +447,8 @@ export default function Home() {
               VibeCheck reads signals from <strong className="font-semibold text-neutral-900">this device</strong>{" "}
               (local date &amp; time, timezone, language, battery when available, tab activity, on-device listening
               history) and uses <strong className="font-semibold text-neutral-900">Gemini</strong> to infer your mood
-              and match music via iTunes. You can allow location next for live weather (Open-Meteo). Playback can use
-              full-length YouTube embeds when <span className="font-medium">YOUTUBE_API_KEY</span> is configured
-              server-side. Preview listens are logged <strong className="font-semibold text-neutral-900">only on this device</strong>{" "}
+              and match music via iTunes. You can allow location next for live weather (Open-Meteo). Playback uses
+              full-length audio streams when available via Piped. Preview listens are logged <strong className="font-semibold text-neutral-900">only on this device</strong>{" "}
               — clear anytime in the footer. No server account — optional vibe profile saved only in this browser.
             </p>
             <button
@@ -757,7 +756,7 @@ export default function Home() {
           </p>
           <p className="text-neutral-600 lg:max-w-xl lg:text-right">
             Vibe profile &amp; quiz stay in your browser only · Signals from this device · Mood read by Gemini · Music via
-            iTunes (+ optional YouTube full playback) · Not clinical advice.
+            iTunes (+ optional full-length audio via Piped) · Not clinical advice.
           </p>
         </footer>
       </main>

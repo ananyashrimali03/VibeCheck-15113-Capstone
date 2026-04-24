@@ -50,7 +50,6 @@ export function VibePlayerWidget({
 
   const t = tracks[activeIndex];
   const useFullAudio = Boolean(t?.stream_audio_url);
-  const fullYoutube = Boolean(t?.youtube_video_id) && !useFullAudio;
 
   useEffect(() => {
     let cancelled = false;
@@ -80,7 +79,7 @@ export function VibePlayerWidget({
 
   useEffect(() => {
     const el = audioRef.current;
-    if (!el || fullYoutube) return;
+    if (!el) return;
     const src = t?.stream_audio_url || t?.preview;
     if (!src) return;
 
@@ -115,11 +114,11 @@ export function VibePlayerWidget({
     } else {
       el.addEventListener("canplay", playWhenReady, { once: true });
     }
-  }, [t?.id, t?.stream_audio_url, t?.preview, fullYoutube, onPreviewListen, t]);
+  }, [t?.id, t?.stream_audio_url, t?.preview, onPreviewListen, t]);
 
   useEffect(() => {
     const src = t?.stream_audio_url || t?.preview;
-    if (!playSignal || playSignal <= lastPlaySignal.current || fullYoutube || !src || !t) return;
+    if (!playSignal || playSignal <= lastPlaySignal.current || !src || !t) return;
     lastPlaySignal.current = playSignal;
     const el = audioRef.current;
     if (!el) return;
@@ -130,7 +129,7 @@ export function VibePlayerWidget({
         onPreviewListen(t);
       })
       .catch(() => {});
-  }, [playSignal, t, onPreviewListen, fullYoutube]);
+  }, [playSignal, t, onPreviewListen]);
 
   const onTimeUpdate = useCallback(() => {
     const el = audioRef.current;
@@ -146,7 +145,6 @@ export function VibePlayerWidget({
   }, []);
 
   const togglePlay = useCallback(async () => {
-    if (fullYoutube) return;
     const el = audioRef.current;
     if (!el || !t) return;
     const src = t.stream_audio_url || t.preview;
@@ -159,7 +157,7 @@ export function VibePlayerWidget({
       el.pause();
       setPlaying(false);
     }
-  }, [t, onPreviewListen, fullYoutube]);
+  }, [t, onPreviewListen]);
 
   const progress = duration > 0 ? Math.min(100, (current / duration) * 100) : 0;
 
@@ -228,50 +226,27 @@ export function VibePlayerWidget({
         </div>
       </div>
 
-      {fullYoutube && t.youtube_video_id ? (
-        <div className="mt-4 space-y-2">
-          <div className="aspect-video w-full overflow-hidden rounded-xl border-2 border-black bg-black shadow-[4px_4px_0_0_#000]">
-            <iframe
-              key={t.id}
-              title={`${t.title} — full playback`}
-              className="h-full w-full"
-              src={`https://www.youtube-nocookie.com/embed/${t.youtube_video_id}?rel=0`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
+      <>
+        {useFullAudio ? (
+          <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-neutral-600">
+            Full-length audio
+          </p>
+        ) : null}
+        <WaveformBars active={playing} />
+
+        <div className="mt-3">
+          <div className="h-2 w-full overflow-hidden rounded-full border-2 border-black bg-white">
+            <div
+              className="h-full bg-[var(--vc-progress,#e85d8e)] transition-[width] duration-150 ease-linear"
+              style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="text-[11px] leading-snug text-neutral-600">
-            Full-length playback on YouTube. Use the embedded controls; Apple Music link below for the catalog
-            entry.
-          </p>
-          <p className="font-mono text-[11px] font-semibold text-neutral-700">
-            Catalog length ~{fmtTime(fallbackDur)}
-          </p>
-        </div>
-      ) : (
-        <>
-          {useFullAudio ? (
-            <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-neutral-600">
-              Full-length audio
-            </p>
-          ) : null}
-          <WaveformBars active={playing} />
-
-          <div className="mt-3">
-            <div className="h-2 w-full overflow-hidden rounded-full border-2 border-black bg-white">
-              <div
-                className="h-full bg-[var(--vc-progress,#e85d8e)] transition-[width] duration-150 ease-linear"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            <div className="mt-1 flex justify-between font-mono text-[11px] font-semibold text-neutral-700">
-              <span>{fmtTime(current)}</span>
-              <span>{fmtTime(fallbackDur)}</span>
-            </div>
+          <div className="mt-1 flex justify-between font-mono text-[11px] font-semibold text-neutral-700">
+            <span>{fmtTime(current)}</span>
+            <span>{fmtTime(fallbackDur)}</span>
           </div>
-        </>
-      )}
+        </div>
+      </>
 
       <div className="mt-4 flex items-center justify-center gap-4">
         <button
@@ -286,23 +261,14 @@ export function VibePlayerWidget({
         >
           <SkipBackIcon />
         </button>
-        {!fullYoutube ? (
-          <button
-            type="button"
-            onClick={() => void togglePlay()}
-            className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-black bg-[var(--vc-player-play,#ffb8d9)] text-neutral-900 shadow-[4px_4px_0_0_#000]"
-            aria-label={playing ? "Pause" : "Play"}
-          >
-            {playing ? <PauseIcon /> : <PlayIcon />}
-          </button>
-        ) : (
-          <div
-            className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-neutral-400 bg-[var(--vc-player-yt-placeholder,#faf5eb)] text-[10px] font-bold uppercase leading-tight text-neutral-600"
-            aria-hidden
-          >
-            YT
-          </div>
-        )}
+        <button
+          type="button"
+          onClick={() => void togglePlay()}
+          className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-black bg-[var(--vc-player-play,#ffb8d9)] text-neutral-900 shadow-[4px_4px_0_0_#000]"
+          aria-label={playing ? "Pause" : "Play"}
+        >
+          {playing ? <PauseIcon /> : <PlayIcon />}
+        </button>
         <button
           type="button"
           onClick={() => {
@@ -317,7 +283,7 @@ export function VibePlayerWidget({
         </button>
       </div>
 
-      {!fullYoutube && (t.stream_audio_url || t.preview) ? (
+      {(t.stream_audio_url || t.preview) ? (
         <audio
           ref={audioRef}
           className="hidden"

@@ -98,8 +98,6 @@ export type DeezerTrack = {
   duration: number;
   artist: { name: string };
   album?: { cover_medium?: string; cover_small?: string };
-  /** Full-length YouTube embed when set (resolved server-side). */
-  youtube_video_id?: string;
   /** Direct audio URL (e.g. from Piped) — full song in the HTML audio player. */
   stream_audio_url?: string;
 };

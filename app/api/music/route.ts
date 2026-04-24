@@ -278,9 +278,6 @@ async function enrichFullPlayback(tracks: DeezerTrack[]): Promise<DeezerTrack[]>
         if (playback.stream_audio_url) {
           return { ...t, stream_audio_url: playback.stream_audio_url };
         }
-        if (playback.youtube_video_id) {
-          return { ...t, youtube_video_id: playback.youtube_video_id };
-        }
       } catch {
         /* keep iTunes preview only */
       }
