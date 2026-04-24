@@ -13,6 +13,9 @@ Specs and planning: **[`plan.md`](./plan.md)** and `spec.md`
 
 If Gemini isn’t configured, the app still loads using **fallback vignettes** (rotating placeholder copy + SoundHelix audio) so testers can click through the UI.
 
+## Features
+Recommendations are being done from external factors rather than music history. So, I'm proud of the creative and (maybe) better recommendations.  
+
 ## Setup
 
 ```bash
@@ -41,7 +44,3 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Location** improves weather context (Open-Meteo); inference still runs if you skip it, with limitations noted in the signal payload.
 - **Music:** iTunes supplies **~30s previews**. The server resolves **full-length** playback by default: it looks up the track on **Piped** (public API hosts) for a **direct audio stream**, or falls back to a **YouTube embed**. Optional **`YOUTUBE_API_KEY`** is tried first for video ID lookup. Set **`PIPED_API_BASES`** (comma-separated) if the default instances are slow or blocked.
 - **Not** a clinical or mental-health tool.
-
-## Pitch line
-
-> When AI handles routine work, what’s left is inner life. VibeCheck doesn’t ask how you feel—it reads *context*, then opens a playable doorway.
