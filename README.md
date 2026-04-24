@@ -1,24 +1,73 @@
 # VibeCheck
+**Context-aware music recommendations — no listening history required.**
 
-**Context-aware music picks:** passive signals from the browser → **Gemini** produces a structured **`InferenceResult`** → **iTunes Search** for tracks
+VibeCheck reads passive signals from your browser (time of day, weather at your location, battery level, online status, and more), sends them to **Google Gemini** for mood inference, and surfaces matching tracks via **iTunes Search**.
 
-Specs and planning: **[`plan.md`](./plan.md)** and `spec.md`
+**Live app:** https://vibecheck-15113-capstone.onrender.com/
 
-## Testing the product
+---
 
-1. Copy **`.env.example`** to **`.env.local`** and add **`GEMINI_API_KEY`** (required for live mood reads). Optional: **`YOUTUBE_API_KEY`** for in-app full songs via YouTube embeds.
-2. Run **`npm install`** then **`npm run dev`** and open **http://localhost:3000**.
-3. Complete consent, choose **Allow location** or **Not now** (location feeds Open-Meteo weather into the signal packet).
-4. Use **Re-read the room** and **Reshuffle** to exercise signal collection, inference, and track retrieval.
+## How it works
 
-If Gemini isn’t configured, the app still loads using **fallback vignettes** (rotating placeholder copy + SoundHelix audio) so testers can click through the UI.
+1. **Signal collection** — the browser gathers passive context: local time, weather (via Open-Meteo, if location is granted), battery level, network status, and your optional listening history stored on-device.
+2. **Mood inference** — signals are packaged and sent to the `/api/infer` endpoint, which asks Gemini to produce a structured `InferenceResult` (mood tags, energy level, genre hints, a short vignette).
+3. **Track retrieval** — the inferred tags drive an iTunes Search query. Full-length audio is resolved via **Piped** (public API); falls back to a YouTube embed.
+4. **Re-read / Reshuffle** — re-collect signals for a fresh inference, or keep the same vibe and swap in new tracks.
 
-## Features
-Recommendations are being done from external factors rather than music history. So, I'm proud of the creative and (maybe) better recommendations.  
+---
 
-## For testers
+## Tech stack
 
-- **No Spotify OAuth**; listening history is stored **on-device** in `localStorage` (clear in footer).
-- **Location** improves weather context (Open-Meteo); inference still runs if you skip it, with limitations noted in the signal payload.
-- **Music:** iTunes supplies **~30s previews**. The server resolves **full-length** playback by default: it looks up the track on **Piped** (public API hosts) for a **direct audio stream**, or falls back to a **YouTube embed**. Optional **`YOUTUBE_API_KEY`** is tried first for video ID lookup. Set **`PIPED_API_BASES`** (comma-separated) if the default instances are slow or blocked.
-- **Not** a clinical or mental-health tool.
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16 (App Router, TypeScript) |
+| Styling | Tailwind CSS v4 |
+| AI | Google Gemini (`@google/generative-ai`) |
+| Music metadata | iTunes Search API |
+| Full-length audio | Piped public API (no key required) |
+| Weather | Open-Meteo (no key required) |
+| Hosting | Render (Node web service) |
+
+---
+
+## Running locally
+
+```bash
+cp .env.example .env.local   # add GEMINI_API_KEY
+npm install
+npm run dev                  # http://localhost:3000
+```
+
+**Required env var:**
+- `GEMINI_API_KEY` — Google AI Studio key for live mood inference.
+
+**Optional env vars:**
+- `PIPED_API_BASES` — comma-separated Piped API hosts to use instead of the built-in public list (useful if default instances are slow or blocked).
+
+If `GEMINI_API_KEY` is missing, the app loads with **fallback vignettes** (rotating placeholder copy + SoundHelix audio) so you can still click through the full UI.
+
+---
+
+## Key design decisions
+
+- **No account, no OAuth.** Listening history is stored in `localStorage` and can be cleared from the footer.
+- **Location is optional.** Granting it adds weather data to the signal packet; inference still runs without it (with a note in the payload).
+- **Recommendations from context, not history.** The core premise: what you should hear right now is better predicted by *where you are and how you feel* than by what you played last week.
+- **30s previews by default.** iTunes provides these freely. Full-length playback via Piped is attempted server-side before the client falls back to a YouTube embed.
+
+---
+
+## Deployment (Render)
+
+| Setting | Value |
+|---|---|
+| Language | Node |
+| Branch | main |
+| Build command | `npm install; npm run build` |
+| Start command | `npm run start` |
+| Root directory | *(leave blank)* |
+| Environment variables | `GEMINI_API_KEY` |
+
+---
+
+> Not a clinical or mental-health tool.
